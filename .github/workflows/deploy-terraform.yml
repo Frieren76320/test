@@ -3,9 +3,8 @@ name: Deploy-Terraform
 on:
   push:
     branches:
-      - terraform
-    paths:
-      - 'docker/**'
+      - master
+ 
   workflow_dispatch:
 
 env:
@@ -20,10 +19,6 @@ env:
 jobs:
   deploy-terraform:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./terraform  # <-- adapte si ton code est ailleurs
 
     steps:
       - name: Checkout code
