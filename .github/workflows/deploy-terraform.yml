@@ -1,0 +1,47 @@
+name: Deploy-Terraform
+
+on:
+  push:
+    branches:
+      - terraform
+    paths:
+      - 'docker/**'
+  workflow_dispatch:
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_VAR_acr_server: ${{ secrets.TF_VAR_acr_server }}
+  TF_VAR_acr_username: ${{ secrets.TF_VAR_acr_username }}
+  TF_VAR_acr_password: ${{ secrets.TF_VAR_acr_password }}
+
+jobs:
+  deploy-terraform:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./terraform  # <-- adapte si ton code est ailleurs
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7  # <-- adapte à ta version souhaitée
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
