@@ -5,7 +5,7 @@ terraform {
       version = "4.19.0"
     }
   }
-  
+
 backend "azurerm" {
     resource_group_name  = "rg-asr242-student1"
     storage_account_name = "st6p3yxca25bln94xngx"
@@ -45,9 +45,9 @@ resource "azurerm_container_group" "cg1" {
   os_type             = "Linux"
 
   image_registry_credential {
-    server   = "acrasr242teacher.azurecr.io"
-    username = "acrasr242teacher"
-    password = "jfhjfzCrs5vo5j1P5BsxRvVep33OM3+Ogy8pUdlKyu+ACRB284sY"
+    server   = var.acr_server
+    username = var.acr_username
+    password = var.acr_password
   }
 
   container {
