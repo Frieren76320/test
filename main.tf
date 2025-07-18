@@ -5,7 +5,16 @@ terraform {
       version = "4.19.0"
     }
   }
+  
+backend "azurerm" {
+    resource_group_name  = "rg-asr242-student1"
+    storage_account_name = "st6p3yxca25bln94xngx"
+    container_name       = "tfstates"
+    key                  = "terraform.tfstate"
+  }
+
 }
+
 
 provider "azurerm" {
   features {
